@@ -1,0 +1,45 @@
+{% extends "thread/base.html" %}
+
+<!-- obj=thread -->
+
+{%block content%}
+
+<h2><a href='/catalog'>catalog</a> |  <a href='/thread/{{obj.id}}/comment'>new comment</a><h2>
+{% if obj.image %}
+	<div>
+		<a href='{{obj.image.url}}'><img src='{{obj.image.url}}' width="300" height="300" /></a>
+	</div>
+{% endif %}
+<h3>{{obj.title}}   <small>{{obj.timestamp}}</small></h3>
+<h6>{{obj.content|linebreaks}}</h6>
+
+
+
+{%for comment in comments%}
+<blockquote>
+<div id={{comment.id}}>
+	<h6>------------------ ------------------</h6>
+	<h6>{{comment.user}}  | <a href='/thread/{{obj.id}}/comment/{{comment.id}}/'>id: {{comment.id}}  </a>|  <small>{{comment.timestamp}}  | <small>
+	
+		{%if comment.parent_id %} <!-- comment is reply to -->
+			parent: <a href='/thread/{{obj.id}}#{{com.id}}'><<{{comment.parent_id}}</a> &nbsp; |
+		{%endif%}
+		child: 		
+		{% for com in comments %} <!-- get replies to comment -->
+			{% ifequal com.parent_id comment.id %}
+				<a href='/thread/{{obj.id}}#{{com.id}}'>>>{{com.id}}</a> &nbsp; 
+			{% endifequal %}
+		{%endfor%}
+	</h6>
+	{% if comment.image %}
+		<div>
+			<a href='{{comment.image.url}}'><img src='{{comment.image.url}}' width="150" height="150"/></a>
+		</div>
+	{% endif %}
+	<p>{{comment.content}}</p>
+</div>	
+</blockquote>
+{%endfor%}
+
+
+{%endblock content%}

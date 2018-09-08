@@ -1,0 +1,20 @@
+{%extends "thread/base.html"%}
+
+{%block content%}
+<!--
+-->			
+	<h2><a href='/thread/create'>create thread</a><h2>
+	<p>------------- -------------</p>
+	
+	{% for obj in obj_list %}
+			<h3><a href='/thread/{{obj.id}}'>{{obj.title}}   </a><small>{{obj.timestamp}}</small></h3>
+		{% if obj.image %}
+			<div>
+				<a href='/thread/{{obj.id}}'><img src='{{obj.image.url}}' width="150" height="150" /></a>
+			</div>
+		{% endif %}
+		<h6>{{obj.content|linebreaks|truncatechars:53}}<h6>
+			<h2>------------- --------------<h2>
+	{% endfor %}
+
+{% endblock content %}
